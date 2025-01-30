@@ -60,6 +60,10 @@ body {
   border-radius: 50%;
   background-color: #e4e6eb;
   margin-right: 12px;
+  background-image: url("https://cdn-icons-png.flaticon.com/512/3135/3135715.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .user-details {
