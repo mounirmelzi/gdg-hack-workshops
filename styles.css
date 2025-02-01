@@ -161,7 +161,7 @@ body {
   color: #1c1e21;
 }
 
-.new-comment {
+.comment-form {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -174,4 +174,11 @@ body {
   border: 1px solid #e4e6eb;
   border-radius: 20px;
   background-color: #f0f2f5;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.comment-input:focus {
+  border-color: #1877f2;
+  box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
 }

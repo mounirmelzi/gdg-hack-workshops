@@ -70,6 +70,45 @@ function renderPosts() {
         : "#65676b";
     });
   });
+
+  document.querySelectorAll(".comment-form").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const postCard = form.closest(".post-card");
+      const input = form.querySelector(".comment-input");
+      const comment = input.value.trim();
+
+      if (comment) {
+        const commentsSection = postCard.querySelector(".comments");
+        const newCommentDiv = document.createElement("div");
+        newCommentDiv.className = "comment";
+
+        const commentHeader = document.createElement("div");
+        commentHeader.className = "comment-header";
+
+        const commentAvatar = document.createElement("div");
+        commentAvatar.className = "user-avatar";
+
+        const commentUserName = document.createElement("p");
+        commentUserName.className = "user-name";
+        commentUserName.textContent = "Current User";
+
+        commentHeader.append(commentAvatar, commentUserName);
+
+        const commentBody = document.createElement("p");
+        commentBody.className = "comment-body";
+        commentBody.textContent = comment;
+
+        newCommentDiv.append(commentHeader, commentBody);
+
+        const commentForm = postCard.querySelector(".comment-form");
+        commentsSection.insertBefore(newCommentDiv, commentForm);
+
+        input.value = "";
+      }
+    });
+  });
 }
 
 function createPostElement(post, user, comments) {
@@ -154,8 +193,8 @@ function createPostElement(post, user, comments) {
     commentsSection.appendChild(commentDiv);
   });
 
-  const newComment = document.createElement("div");
-  newComment.className = "new-comment";
+  const commentForm = document.createElement("form");
+  commentForm.className = "comment-form";
 
   const newCommentAvatar = document.createElement("div");
   newCommentAvatar.className = "user-avatar";
@@ -165,8 +204,8 @@ function createPostElement(post, user, comments) {
   newCommentInput.type = "text";
   newCommentInput.placeholder = "Write a comment...";
 
-  newComment.append(newCommentAvatar, newCommentInput);
-  commentsSection.appendChild(newComment);
+  commentForm.append(newCommentAvatar, newCommentInput);
+  commentsSection.appendChild(commentForm);
 
   // append all elements to post card
   postCard.append(userInfo, postTitle, postBody, postActions, commentsSection);
