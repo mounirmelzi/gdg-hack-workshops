@@ -80,32 +80,48 @@ function renderPosts() {
       const comment = input.value.trim();
 
       if (comment) {
-        const commentsSection = postCard.querySelector(".comments");
-        const newCommentDiv = document.createElement("div");
-        newCommentDiv.className = "comment";
+        fetch("https://jsonplaceholder.typicode.com/comments", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify({
+            body: comment,
+            postId: postCard.dataset.postId,
+            name: "name",
+            email: "user@gmail.com",
+          }),
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            const commentsSection = postCard.querySelector(".comments");
 
-        const commentHeader = document.createElement("div");
-        commentHeader.className = "comment-header";
+            const newCommentDiv = document.createElement("div");
+            newCommentDiv.className = "comment";
 
-        const commentAvatar = document.createElement("div");
-        commentAvatar.className = "user-avatar";
+            const commentHeader = document.createElement("div");
+            commentHeader.className = "comment-header";
 
-        const commentUserName = document.createElement("p");
-        commentUserName.className = "user-name";
-        commentUserName.textContent = "Current User";
+            const commentAvatar = document.createElement("div");
+            commentAvatar.className = "user-avatar";
 
-        commentHeader.append(commentAvatar, commentUserName);
+            const commentUserName = document.createElement("p");
+            commentUserName.className = "user-name";
+            commentUserName.textContent = json.email;
 
-        const commentBody = document.createElement("p");
-        commentBody.className = "comment-body";
-        commentBody.textContent = comment;
+            commentHeader.append(commentAvatar, commentUserName);
 
-        newCommentDiv.append(commentHeader, commentBody);
+            const commentBody = document.createElement("p");
+            commentBody.className = "comment-body";
+            commentBody.textContent = json.body;
 
-        const commentForm = postCard.querySelector(".comment-form");
-        commentsSection.insertBefore(newCommentDiv, commentForm);
+            newCommentDiv.append(commentHeader, commentBody);
 
-        input.value = "";
+            const commentForm = postCard.querySelector(".comment-form");
+            commentsSection.insertBefore(newCommentDiv, commentForm);
+
+            input.value = "";
+          });
       }
     });
   });
@@ -115,6 +131,7 @@ function createPostElement(post, user, comments) {
   // create main post card section
   const postCard = document.createElement("section");
   postCard.className = "post-card";
+  postCard.dataset.postId = post.id;
 
   // create user info section
   const userInfo = document.createElement("div");
