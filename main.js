@@ -121,7 +121,8 @@ function renderPosts() {
             commentsSection.insertBefore(newCommentDiv, commentForm);
 
             input.value = "";
-          });
+          })
+          .catch((error) => console.error(error));
       }
     });
   });
